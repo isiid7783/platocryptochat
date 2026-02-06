@@ -1,11 +1,4 @@
-import { useState } from "react"
-
-export default function ChatWindow({ chat }) {
-  const [messages] = useState([
-    { from: chat, text: "Hello" },
-    { from: "Me", text: "Hi there." }
-  ])
-
+export default function ChatWindow({ messages }) {
   return (
     <div className="chat-window">
       {messages.map((m, i) => (
