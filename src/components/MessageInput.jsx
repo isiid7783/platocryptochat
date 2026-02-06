@@ -1,11 +1,11 @@
 import { useState } from "react"
 
-export default function MessageInput() {
+export default function MessageInput({ onSend }) {
   const [text, setText] = useState("")
 
   function send() {
     if (!text) return
-    console.log("Send:", text)
+    onSend(text)
     setText("")
   }
 
