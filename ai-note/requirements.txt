@@ -1,0 +1,4 @@
+# ai-node/requirements.txt
+fastapi
+uvicorn
+pydantic
