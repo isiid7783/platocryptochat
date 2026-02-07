@@ -6,7 +6,7 @@ export default function ChatWindow({ messages }) {
           key={i}
           className={m.from === "Me" ? "message me" : "message"}
         >
-          {m.text}
+          <b>{m.from}:</b> {m.text}
         </div>
       ))}
     </div>
