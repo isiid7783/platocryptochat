@@ -3,7 +3,7 @@ import { useState } from "react"
 export default function MessageInput({ onSend }) {
   const [text, setText] = useState("")
 
-  function send() {
+  function handleSend() {
     if (!text) return
     onSend(text)
     setText("")
@@ -14,9 +14,10 @@ export default function MessageInput({ onSend }) {
       <input
         value={text}
         onChange={e => setText(e.target.value)}
-        placeholder="Type a message..."
+        placeholder="Type message..."
       />
-      <button onClick={send}>Send</button>
+      <button onClick={handleSend}>Send</button>
     </div>
   )
 }
+
