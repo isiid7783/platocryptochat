@@ -1,17 +1,35 @@
-// server/server.js
 import { WebSocketServer } from "ws"
-import config from "./config/config.js"
-import { handleConnection } from "./lib/wsRouter.js"
-import fs from "fs"
 
-if (!fs.existsSync("./logs")) {
-  fs.mkdirSync("./logs")
-}
+const wss = new WebSocketServer({ port: process.env.PORT || 8080 })
 
-const wss = new WebSocketServer({ port: config.PORT })
+const clients = new Map()
 
 wss.on("connection", (ws) => {
-  handleConnection(ws)
+
+  ws.on("message", (raw) => {
+    const data = JSON.parse(raw)
+
+    if (data.type === "register") {
+      clients.set(data.user, ws)
+      return
+    }
+
+    if (data.type === "message") {
+      const target = clients.get(data.to)
+      if (target) {
+        target.send(JSON.stringify(data))
+      }
+    }
+  })
+
+  ws.on("close", () => {
+    for (const [user, socket] of clients.entries()) {
+      if (socket === ws) {
+        clients.delete(user)
+      }
+    }
+  })
 })
 
-console.log(`Plato Secure Server running on ${config.PORT}`)
+console.log("Server running")
+
